@@ -17,12 +17,12 @@ watchEffect(() => {
 <template>
   <div>
     Minesweeper
-    <div p5>
+    <div p5 w-full overflow-auto>
       <div
         v-for="row, y in state"
         :key="y"
         flex="~"
-        items-center justify-center
+        items-center justify-center w-max ma
       >
         <MineBlock
           v-for="block, x in row" :key="x"
@@ -32,14 +32,25 @@ watchEffect(() => {
         />
       </div>
     </div>
+
     <div>
       Count: {{ mineCount }}
     </div>
-    <div flex="~ gap-1" justify-center>
-      <button btn @click="toggleDev()">
+
+    <div
+      flex="~ gap-1"
+      justify-center
+    >
+      <button
+        btn
+        @click="toggleDev()"
+      >
         {{ isDev ? 'DEV' : 'NORMAL' }}
       </button>
-      <button btn @click="play.reset()">
+      <button
+        btn
+        @click="play.reset()"
+      >
         REST
       </button>
     </div>
