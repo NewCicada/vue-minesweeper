@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { isDev, toggleDev } from '~/composables'
 import { GamePlay } from '~/composables/logic'
+
 const play = new GamePlay(12, 12)
-const state = play.state
+useStorage('vuesweeper-state', play.state)
+const state = computed(() => play.board)
 </script>
 
 <template>
@@ -13,7 +15,7 @@ const state = play.state
         v-for="row, y in state"
         :key="y"
         flex="~"
-        item-center justify-center
+        items-center justify-center
       >
         <MineBlock
           v-for="block, x in row" :key="x"
@@ -23,6 +25,7 @@ const state = play.state
         />
       </div>
     </div>
+
     <div flex="~ gap-1" justify-center>
       <button btn @click="toggleDev()">
         {{ isDev ? 'DEV' : 'NORMAL' }}
