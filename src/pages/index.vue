@@ -2,7 +2,7 @@
 import { isDev, toggleDev } from '~/composables'
 import { GamePlay } from '~/composables/logic'
 
-const play = new GamePlay(12, 12, 30)
+const play = new GamePlay(6, 6, 3)
 useStorage('vuesweeper-state', play.state)
 const state = computed(() => play.board)
 
@@ -54,5 +54,6 @@ watchEffect(() => {
         REST
       </button>
     </div>
+    <Confetti :passed="play.state.value.gameState === 'won'" />
   </div>
 </template>

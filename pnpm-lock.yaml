@@ -4,12 +4,14 @@ specifiers:
   '@antfu/eslint-config': ^0.36.0
   '@iconify-json/carbon': ^1.1.16
   '@iconify-json/mdi': ^1.1.50
+  '@types/canvas-confetti': ^1.6.0
   '@types/node': ^18.14.6
   '@unocss/reset': ^0.50.3
   '@vitejs/plugin-vue': ^4.0.0
   '@vue-macros/volar': ^0.8.4
   '@vue/test-utils': ^2.3.0
   '@vueuse/core': ^9.13.0
+  canvas-confetti: ^1.6.0
   eslint: ^8.35.0
   i: ^0.3.7
   jsdom: ^21.1.0
@@ -30,7 +32,9 @@ specifiers:
   vue-tsc: ^1.2.0
 
 dependencies:
+  '@types/canvas-confetti': registry.npmmirror.com/@types/canvas-confetti/1.6.0
   '@vueuse/core': 9.13.0_vue@3.2.47
+  canvas-confetti: registry.npmmirror.com/canvas-confetti/1.6.0
   i: registry.npmmirror.com/i/0.3.7
   vue: 3.2.47
   vue-router: 4.1.6_vue@3.2.47
@@ -6495,6 +6499,12 @@ packages:
     version: 2.0.0
     dev: true
 
+  registry.npmmirror.com/@types/canvas-confetti/1.6.0:
+    resolution: {integrity: sha512-Yq6rIccwcco0TLD5SMUrIM7Fk7Fe/C0jmNRxJJCLtAF6gebDkPuUjK5EHedxecm69Pi/aA+It39Ux4OHmFhjRw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/canvas-confetti/-/canvas-confetti-1.6.0.tgz}
+    name: '@types/canvas-confetti'
+    version: 1.6.0
+    dev: false
+
   registry.npmmirror.com/@vue/compiler-dom/3.2.47:
     resolution: {integrity: sha512-dBBnEHEPoftUiS03a4ggEig74J2YBZ2UIeyfpcRM2tavgMWo4bsEfgCGsu+uJIL/vax9S+JztH8NmQerUo7shQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/compiler-dom/-/compiler-dom-3.2.47.tgz}
     name: '@vue/compiler-dom'
@@ -6516,6 +6526,12 @@ packages:
       vue: 3.2.47
     dev: true
     optional: true
+
+  registry.npmmirror.com/canvas-confetti/1.6.0:
+    resolution: {integrity: sha512-ej+w/m8Jzpv9Z7W7uJZer14Ke8P2ogsjg4ZMGIuq4iqUOqY2Jq8BNW42iGmNfRwREaaEfFIczLuZZiEVSYNHAA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/canvas-confetti/-/canvas-confetti-1.6.0.tgz}
+    name: canvas-confetti
+    version: 1.6.0
+    dev: false
 
   registry.npmmirror.com/debug/3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/debug/-/debug-3.2.7.tgz}
