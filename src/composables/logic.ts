@@ -1,3 +1,5 @@
+import type { Ref } from 'vue'
+// import type createSeedrandom from 'seedrandom'
 import type { BlockState } from '~/types'
 
 const directions = [
@@ -21,6 +23,7 @@ interface GameState {
 }
 export class GamePlay {
   state = ref() as Ref<GameState>
+  // random: ReturnType<typeof createSeedrandom>
 
   constructor(
     public width: number,
@@ -64,12 +67,12 @@ export class GamePlay {
     }
   }
 
-  random(min: number, max: number) {
+  randomRange(min: number, max: number) {
     return Math.random() * (max - min) + min
   }
 
   randomInt(min: number, max: number) {
-    return Math.round(this.random(min, max))
+    return Math.round(this.randomRange(min, max))
   }
 
   generateMines(state: BlockState[][], initial: BlockState) {
