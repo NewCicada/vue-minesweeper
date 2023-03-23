@@ -93,6 +93,6 @@ watchEffect(() => {
         {{ isDev ? 'DEV' : 'NORMAL' }}
       </button>
     </div> -->
-    <Confetti :passed="play.state.value.gameState === 'won'" />
+    <Confetti :passed="play.state.value.status === 'won'" />
   </div>
 </template>

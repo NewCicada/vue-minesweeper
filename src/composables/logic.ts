@@ -10,11 +10,14 @@ const directions = [
   [-1, 1],
   [0, 1],
 ]
+type GameStatus = 'play' | 'won' | 'lost'
+
 interface GameState {
   board: BlockState[][]
   mineGenerated: boolean
-  gameState: 'play' | 'won' | 'lost'
+  status: GameStatus
   startMS: number
+  endMs?: number
 }
 export class GamePlay {
   state = ref() as Ref<GameState>
@@ -47,7 +50,7 @@ export class GamePlay {
     this.state.value = {
       startMS: +Date.now(),
       mineGenerated: false,
-      gameState: 'play',
+      status: 'play',
       board: Array.from({ length: this.height }, (_, y) =>
         Array.from({ length: this.width },
           (_, x): BlockState => ({
@@ -118,7 +121,7 @@ export class GamePlay {
   }
 
   onRightClick(block: BlockState) {
-    if (this.state.value.gameState !== 'play')
+    if (this.state.value.status !== 'play')
       return
 
     if (block.revealed)
@@ -127,7 +130,7 @@ export class GamePlay {
   }
 
   onClick(block: BlockState) {
-    if (this.state.value.gameState !== 'play')
+    if (this.state.value.status !== 'play')
       return
 
     if (!this.state.value.mineGenerated) {
@@ -137,8 +140,7 @@ export class GamePlay {
 
     block.revealed = true
     if (block.mine) {
-      this.state.value.gameState = 'lost'
-      this.showAllMine()
+      this.onGameOver('lost')
       return
     }
     this.expendZero(block)
@@ -168,13 +170,10 @@ export class GamePlay {
     const blocks = this.board.flat()
 
     if (blocks.every(block => block.revealed || block.flagged || block.mine)) {
-      if (blocks.some(block => block.flagged && !block.mine)) {
-        this.state.value.gameState = 'lost'
-        this.showAllMine()
-      }
-      else {
-        this.state.value.gameState = 'won'
-      }
+      if (blocks.some(block => block.flagged && !block.mine))
+        this.onGameOver('lost')
+      else
+        this.onGameOver('won')
     }
   }
 
@@ -193,7 +192,16 @@ export class GamePlay {
       siblings.forEach((i) => {
         if (!i.revealed && !i.flagged)
           i.flagged = true
+        if (i.mine)
+          this.onGameOver('lost')
       })
     }
+  }
+
+  onGameOver(status: GameStatus) {
+    this.state.value.status = status
+    this.state.value.endMs = +Date.now()
+    if (status === 'lost')
+      this.showAllMine()
   }
 }
