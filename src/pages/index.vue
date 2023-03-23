@@ -25,7 +25,7 @@ function newGame(difficulty: 'easy' | 'medium' | 'hard') {
       play.reset(16, 16, 40)
       break
     case 'hard':
-      play.reset(16, 30, 99)
+      play.reset(30, 16, 99)
       break
   }
 }
@@ -76,6 +76,7 @@ watchEffect(() => {
           v-for="block, x in row" :key="x"
           :block="block"
           @click="play.onClick(block)"
+          @dblclick="play.autoExpand(block)"
           @contextmenu.prevent="play.onRightClick(block)"
         />
       </div>
