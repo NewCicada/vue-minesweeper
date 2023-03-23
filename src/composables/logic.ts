@@ -203,5 +203,9 @@ export class GamePlay {
     this.state.value.endMs = +Date.now()
     if (status === 'lost')
       this.showAllMine()
+    setTimeout(() => {
+      // eslint-disable-next-line no-alert
+      alert('lost')
+    }, 10)
   }
 }
