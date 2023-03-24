@@ -152,6 +152,7 @@ export class GamePlay {
       this.onGameOver('lost')
       return
     }
+
     this.expendZero(block)
   }
 
