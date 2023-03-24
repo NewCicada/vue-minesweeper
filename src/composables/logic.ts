@@ -124,7 +124,7 @@ export class GamePlay {
   }
 
   onRightClick(block: BlockState) {
-    if (this.state.value.status !== 'play')
+    if (this.state.value.status !== 'play' || block.flagged)
       return
 
     if (block.revealed)
@@ -181,6 +181,8 @@ export class GamePlay {
   }
 
   autoExpand(block: BlockState) {
+    if (this.state.value.status !== 'play' || block.flagged)
+      return
     const siblings = this.getSiblings(block)
     const flags = siblings.reduce((a, b) => a + (b.flagged ? 1 : 0), 0)
     // eslint-disable-next-line no-mixed-operators
