@@ -5,7 +5,7 @@ import { GamePlay } from '~/composables/logic'
 const play = new GamePlay(6, 6, 3)
 
 const now = $(useNow())
-const timerMS = $computed(() => Math.round((+now - play.state.value.startMS) / 1000))
+const timerMS = $computed(() => Math.round((play.state.value.endMs || +now) / 1000))
 
 useStorage('vuesweeper-state', play.state)
 const state = computed(() => play.board)

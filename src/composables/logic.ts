@@ -195,7 +195,7 @@ export class GamePlay {
       siblings.forEach((i) => {
         if (!i.revealed && !i.flagged)
           i.flagged = true
-        if (i.mine)
+        if (!i.flagged && i.mine)
           this.onGameOver('lost')
       })
     }
@@ -204,11 +204,12 @@ export class GamePlay {
   onGameOver(status: GameStatus) {
     this.state.value.status = status
     this.state.value.endMs = +Date.now()
-    if (status === 'lost')
+    if (status === 'lost') {
       this.showAllMine()
-    setTimeout(() => {
-      // eslint-disable-next-line no-alert
-      alert('lost')
-    }, 10)
+      setTimeout(() => {
+        // eslint-disable-next-line no-alert
+        alert('lost')
+      }, 10)
+    }
   }
 }
