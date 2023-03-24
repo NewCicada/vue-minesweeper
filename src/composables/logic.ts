@@ -187,7 +187,13 @@ export class GamePlay {
     const notRevealed = siblings.reduce((a, b) => a + (!b.revealed && b.flagged ? 1 : 0), 0)
     if (flags === block.adjacentMines) {
       siblings.forEach((i) => {
+        if (i.revealed || i.flagged)
+          return
         i.revealed = true
+        if (!i.flagged && i.mine)
+          this.expendZero(i)
+        if (i.mine)
+          this.onGameOver('lost')
       })
     }
     const missingFlags = block.adjacentMines - flags
