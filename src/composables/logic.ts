@@ -12,15 +12,17 @@ const directions = [
   [-1, 1],
   [0, 1],
 ]
-type GameStatus = 'play' | 'won' | 'lost'
+
+type GameStatus = 'ready' | 'play' | 'won' | 'lost'
 
 interface GameState {
   board: BlockState[][]
   mineGenerated: boolean
   status: GameStatus
-  startMS: number
+  startMS?: number
   endMs?: number
 }
+
 export class GamePlay {
   state = ref() as Ref<GameState>
   // random: ReturnType<typeof createSeedrandom>
@@ -51,9 +53,8 @@ export class GamePlay {
     this.mines = mines
 
     this.state.value = {
-      startMS: +Date.now(),
       mineGenerated: false,
-      status: 'play',
+      status: 'ready',
       board: Array.from({ length: this.height }, (_, y) =>
         Array.from({ length: this.width },
           (_, x): BlockState => ({
@@ -116,15 +117,16 @@ export class GamePlay {
 
     this.getSiblings(block)
       .forEach((s) => {
-        if (!s.flagged) {
-          s.revealed = true
+        if (!s.revealed) {
+          if (!s.flagged)
+            s.revealed = true
           this.expendZero(s)
         }
       })
   }
 
   onRightClick(block: BlockState) {
-    if (this.state.value.status !== 'play' || block.flagged)
+    if (this.state.value.status !== 'play')
       return
 
     if (block.revealed)
@@ -133,7 +135,11 @@ export class GamePlay {
   }
 
   onClick(block: BlockState) {
-    if (this.state.value.status !== 'play')
+    if (this.state.value.status === 'ready') {
+      this.state.value.status = 'play'
+      this.state.value.startMS = +new Date()
+    }
+    if (this.state.value.status !== 'play' || block.flagged)
       return
 
     if (!this.state.value.mineGenerated) {
@@ -160,7 +166,7 @@ export class GamePlay {
       .filter(Boolean) as BlockState[]
   }
 
-  showAllMine() {
+  showAllMines() {
     this.board.flat().forEach((i) => {
       if (i.mine)
         i.revealed = true
@@ -186,14 +192,13 @@ export class GamePlay {
     const siblings = this.getSiblings(block)
     const flags = siblings.reduce((a, b) => a + (b.flagged ? 1 : 0), 0)
     // eslint-disable-next-line no-mixed-operators
-    const notRevealed = siblings.reduce((a, b) => a + (!b.revealed && b.flagged ? 1 : 0), 0)
+    const notRevealed = siblings.reduce((a, b) => a + (!b.revealed && !b.flagged ? 1 : 0), 0)
     if (flags === block.adjacentMines) {
       siblings.forEach((i) => {
         if (i.revealed || i.flagged)
           return
         i.revealed = true
-        if (!i.flagged && i.mine)
-          this.expendZero(i)
+        this.expendZero(i)
         if (i.mine)
           this.onGameOver('lost')
       })
@@ -203,8 +208,6 @@ export class GamePlay {
       siblings.forEach((i) => {
         if (!i.revealed && !i.flagged)
           i.flagged = true
-        if (!i.flagged && i.mine)
-          this.onGameOver('lost')
       })
     }
   }
@@ -213,7 +216,7 @@ export class GamePlay {
     this.state.value.status = status
     this.state.value.endMs = +Date.now()
     if (status === 'lost') {
-      this.showAllMine()
+      this.showAllMines()
       setTimeout(() => {
         // eslint-disable-next-line no-alert
         alert('lost')
